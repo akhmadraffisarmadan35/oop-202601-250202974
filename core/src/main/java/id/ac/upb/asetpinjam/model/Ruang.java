@@ -20,5 +20,20 @@ public class Ruang extends Aset {
     }
 
 
-    // TODO minggu 3: override getJenis(). Minggu 4: override hitungDenda(int).
+   // TODO minggu 3: override getJenis(). 
+
+    @Override
+    public JenisAset getJenis() {
+        return JenisAset.RUANG;
+    }
+
+    // Minggu 4: override hitungDenda(int).
+    @Override
+    public long hitungDenda(int hariTerlambat) {
+        if (hariTerlambat < 0) {
+            throw new IllegalArgumentException("Hari terlambat harus lebih dari 0");
+        }
+        
+        return hariTerlambat * 1 * id.ac.upb.asetpinjam.config.Varian.aktif().dendaPerHari;
+    }
 }
