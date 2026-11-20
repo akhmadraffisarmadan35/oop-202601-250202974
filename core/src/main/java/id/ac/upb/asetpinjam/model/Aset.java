@@ -11,38 +11,36 @@ import id.ac.upb.asetpinjam.kontrak.DapatDipinjam;
  * Minggu 5: isi bisaDipinjam() dan ubah menjadi class abstrak
  * (TestSupport.aset(...) di folder test menyesuaikan sendiri, lihat docs/minggu-05.md).
  */
-public class Aset implements DapatDipinjam {
-     private String kode;
-    private String nama;
-    private StatusAset status;
-    private Kondisi kondisi;
+public abstract class Aset implements DapatDipinjam {
 
     // TODO minggu 2: field private: kode, nama, status (default TERSEDIA), kondisi (default BAIK).
+    private String Kode;
+    private String Nama;
+    private StatusAset Status = StatusAset.TERSEDIA;
+    private Kondisi kondisi = Kondisi.BAIK;
 
     /** TODO minggu 2: kode dan nama tidak boleh null atau kosong (IllegalArgumentException). */
     public Aset(String kode, String nama) {
-     if (kode == null || kode.trim().isEmpty()) {
-        throw new IllegalArgumentException("Kode tidak boleh null atau kosong");
+        if (kode == null || kode.isBlank()) {
+            throw new IllegalArgumentException("Kode tidak boleh null atau kosong");
+        }
+        if (nama == null || nama.isBlank()) {
+            throw new IllegalArgumentException("Nama tidak boleh null atau kosong");
+        }
+         this.Kode = kode;
+         this.Nama = nama;
     }
-    if (nama == null || nama.trim().isEmpty()) {
-        throw new IllegalArgumentException("Nama tidak boleh null atau kosong");
-    }
-    this.kode = kode;
-    this.nama = nama;
-    this.status = StatusAset.TERSEDIA;
-    this.kondisi = Kondisi.BAIK;
-}
 
     public String getKode() {
-        return kode;
+        return Kode;
     }
 
     public String getNama() {
-        return nama;
+        return Nama;
     }
 
     public StatusAset getStatus() {
-        return status;
+        return Status;
     }
 
     public Kondisi getKondisi() {
@@ -51,24 +49,24 @@ public class Aset implements DapatDipinjam {
 
     /** TODO minggu 2: nama baru tidak boleh kosong. */
     public void setNama(String nama) {
-     if (nama == null || nama.isEmpty()) {
+        if (nama == null || nama.isBlank()) {
             throw new IllegalArgumentException("Nama tidak boleh null atau kosong");
         }
-        this.nama = nama;
+        this.Nama = nama;
     }
 
     /** TODO minggu 2: status tidak boleh null. */
     public void setStatus(StatusAset status) {
-       if (status == null) {
-            throw new IllegalArgumentException("Status tidak boleh null");
+        if (status == null) {
+            throw new IllegalArgumentException("Status tidak boleh null atau kosong");
         }
-        this.status = status;
+        this.Status = status;
     }
 
     /** TODO minggu 2: kondisi tidak boleh null. */
     public void setKondisi(Kondisi kondisi) {
         if (kondisi == null) {
-            throw new IllegalArgumentException("Kondisi tidak boleh null");
+            throw new IllegalArgumentException("Kondisi tidak boleh null atau kosong");
         }
         this.kondisi = kondisi;
     }
@@ -80,12 +78,11 @@ public class Aset implements DapatDipinjam {
     }
 
     /** TODO minggu 3: dioverride tiap subclass agar mengembalikan jenis yang benar. */
-    public JenisAset getJenis() {
-        throw new UnsupportedOperationException("TODO minggu 3");
+     public JenisAset getJenis() {
+        throw new UnsupportedOperationException("Jenis aset tidak diketahui, override di subclass");
     }
 
     /** TODO minggu 4: denda keterlambatan. Dioverride tiap subclass (aturan di docs/aturan-bisnis.md). */
-    public long hitungDenda(int hariTerlambat) {
-        throw new UnsupportedOperationException("TODO minggu 4");
-    }
+     public abstract long hitungDenda(int hariTerlambat);
+    
 }
